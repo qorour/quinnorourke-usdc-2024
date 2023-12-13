@@ -217,7 +217,7 @@ const twoBooksSameLines = [
     }
 ];
 
-/** And should check for search terms w/ multiple books in the list*/
+/** Should check for search terms w/ multiple books in the list*/
 const test7result = findSearchTermInBooks("the", twoBooksSameLines);
 if (test7result.Results.length === 2) {
     console.log("PASS: Test 7");
@@ -225,4 +225,24 @@ if (test7result.Results.length === 2) {
     console.log("FAIL: Test 7");
     console.log("Expected: 2 results");
     console.log("Received:", test7result.Results.length);
+}
+
+/** Should check that case sensitivity is working properly */
+const test8result = findSearchTermInBooks("Profound", twentyLeaguesIn);
+if (test8result.Results.length === 0) {
+    console.log("PASS: Test 8");
+} else {
+    console.log("FAIL: Test 8");
+    console.log("Expected: 0 results");
+    console.log("Received:", test8result.Results.length);
+}
+
+/** Should check that a word not in the text means none returned in results */
+const test9result = findSearchTermInBooks("Guitar", twentyLeaguesIn);
+if (test9result.Results.length === 0) {
+    console.log("PASS: Test 9");
+} else {
+    console.log("FAIL: Test 9");
+    console.log("Expected: 0 results");
+    console.log("Received:", test9result.Results.length);
 }
