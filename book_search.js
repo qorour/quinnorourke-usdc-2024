@@ -136,7 +136,6 @@ if (test3result.Results.length == 0) {
 }
 
 /** We should check for if the book exists but has no content/content is empty */
-
 const nothingBurger = [
     {
         "Title": "Nothing Burger",
@@ -167,4 +166,63 @@ if (test5result.Results.length == 0) {
     console.log("FAIL: Test 5");
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test5result.Results.length);
+}
+
+/** And finally let's check other possible inputs/situations this function could be used it */
+const multiWordOut =
+    {
+        "SearchTerm": "good the",
+        "Results": [
+            {
+                "ISBN": "9780000528531",
+                "Page": 31,
+                "Line": 9
+            }
+        ]
+    }
+
+
+/** We should check multi-word search terms working correctly */
+const test6result = findSearchTermInBooks("good the", twentyLeaguesIn);
+if (JSON.stringify(multiWordOut) === JSON.stringify(test6result)) {
+    console.log("PASS: Test 6");
+} else {
+    console.log("FAIL: Test 6");
+    console.log("Expected:", multiWordOut);
+    console.log("Received:", test6result);
+}
+
+const twoBooksSameLines = [
+    {
+        "Title": "Book1",
+        "ISBN": "1111111111",
+        "Content": [
+            {
+                "Page": 31,
+                "Line": 9,
+                "Text": "ness was then profound; and however good the Canadian\'s"
+            }
+        ]
+    },
+    {
+        "Title": "Book2",
+        "ISBN": "2222222222",
+        "Content": [
+            {
+                "Page": 31,
+                "Line": 9,
+                "Text": "ness was then profound; and however good the Canadian\'s"
+            }
+        ]
+    }
+];
+
+/** And should check for search terms w/ multiple books in the list*/
+const test7result = findSearchTermInBooks("the", twoBooksSameLines);
+if (test7result.Results.length === 2) {
+    console.log("PASS: Test 7");
+} else {
+    console.log("FAIL: Test 7");
+    console.log("Expected: 2 results");
+    console.log("Received:", test7result.Results.length);
 }
