@@ -24,8 +24,15 @@
         "SearchTerm": searchTerm,
         "Results": []
     };
-
+    if (typeof scannedTextObj !== 'object' || Object.keys(scannedTextObj).length === 0) { // checking that scannedtext is valid, has values, and can be iterated through
+        return result
+    }
+    
+    // Verified we can begin our search, go through each book and check if the text has the searchterm.
     for(const book of scannedTextObj) {
+        if (!book || !book.Content || book.Content.length === 0) { // checks for edge cases/inputs and skips them if found
+            continue;
+        }
         //console.log(`Checking book: ${book.Title}`);
         for(const content of book.Content) {
             //console.log(`Checking content - Page: ${content.Page}, Line: ${content.Line}`);
@@ -114,4 +121,50 @@ if (test2result.Results.length == 1) {
     console.log("FAIL: Test 2");
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
+}
+
+/** Let's also check for base cases/edge cases */
+
+/** We should check for if the provided books is empty/null */
+const test3result = findSearchTermInBooks("the", {}); 
+if (test3result.Results.length == 0) {
+    console.log("PASS: Test 3");
+} else {
+    console.log("FAIL: Test 3");
+    console.log("Expected:", twentyLeaguesOut.Results.length);
+    console.log("Received:", test3result.Results.length);
+}
+
+/** We should check for if the book exists but has no content/content is empty */
+
+const nothingBurger = [
+    {
+        "Title": "Nothing Burger",
+        "ISBN": "123456789"
+    }
+]
+const nothingBurger2 = [
+    {
+        "Title": "Nothing Burger Text",
+        "ISBN": "123456789",
+        "Content":[]
+    }
+]
+
+const test4result = findSearchTermInBooks("the", nothingBurger); 
+if (test4result.Results.length == 0) {
+    console.log("PASS: Test 4");
+} else {
+    console.log("FAIL: Test 4");
+    console.log("Expected:", twentyLeaguesOut.Results.length);
+    console.log("Received:", test4result.Results.length);
+}
+
+const test5result = findSearchTermInBooks("the", nothingBurger2); 
+if (test5result.Results.length == 0) {
+    console.log("PASS: Test 5");
+} else {
+    console.log("FAIL: Test 5");
+    console.log("Expected:", twentyLeaguesOut.Results.length);
+    console.log("Received:", test5result.Results.length);
 }
